@@ -60,6 +60,7 @@
           <td>@vehicle.Timestamp</td>
           <td>
               <a class="btn btn-warning" asp-action="Update" asp-route-rowKey="@vehicle.RowKey" asp-route-partitionKey="@vehicle.PartitionKey">Update</a>
+              <a class="btn btn-danger" asp-action="Delete" asp-route-rowKey="@vehicle.RowKey" asp-route-partitionKey="@vehicle.PartitionKey">Delete</a>
           </td>
         </tr>
     }

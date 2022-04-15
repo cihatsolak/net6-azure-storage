@@ -44,5 +44,13 @@
 
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(string rowKey, string partitionKey)
+        {
+            await _vehicleStorage.DeleteByRowAndPartitionKeyAsync(rowKey, partitionKey);
+
+            return RedirectToAction("Index");
+        }
     }
 }
