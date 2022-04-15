@@ -9,8 +9,10 @@
             _vehicleStorage = vehicleStorage;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
+            ViewBag.Vehicles = _vehicleStorage.GetAll().ToList();
             return View();
         }
     }

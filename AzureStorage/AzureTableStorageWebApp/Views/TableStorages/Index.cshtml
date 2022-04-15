@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "Error";
+    List<Vehicle> vehicles = ViewBag.Vehicles as List<Vehicle>;
+}
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">RowKey</th>
+      <th scope="col">PartitionKey</th>
+      <th scope="col">BrandName</th>
+      <th scope="col">ModelName</th>
+      <th scope="col">SubModelName</th>
+      <th scope="col">ModelYear</th>
+      <th scope="col">TimeStamp</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach(var vehicle in vehicles)
+    {
+        <tr>
+          <th scope="row">@vehicle.RowKey</th>
+          <td>@vehicle.PartitionKey</td>
+          <td>@vehicle.BrandName</td>
+          <td>@vehicle.ModelName</td>
+          <td>@vehicle.SubModelName</td>
+          <td>@vehicle.ModelYear</td>
+          <td>@vehicle.Timestamp</td>
+        </tr>
+    }
+  </tbody>
+</table>
