@@ -1,6 +1,6 @@
 ﻿namespace AzureStorageLibrary.Infrastructure
 {
-    internal interface INoSqlStorage<TEntity> where TEntity : class, ITableEntity, new()
+    public interface INoSqlStorage<TEntity> where TEntity : class, ITableEntity, new()
     {
         IQueryable<TEntity> Query(Expression<Func<TEntity, bool>> expression);
         IQueryable<TEntity> GetAll();
