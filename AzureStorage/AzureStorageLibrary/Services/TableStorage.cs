@@ -44,7 +44,7 @@
 
         public async Task<TEntity> UpdateAsync(TEntity entity)
         {
-            var response = await _tableClient.UpdateEntityAsync(entity, entity.ETag, TableUpdateMode.Merge);
+            var response = await _tableClient.UpdateEntityAsync(entity, ETag.All, TableUpdateMode.Merge);
             if (response.IsError)
                 throw new Exception("update process failed.");
 

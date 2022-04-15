@@ -26,5 +26,23 @@
 
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Update(string rowKey, string partitionKey)
+        {
+            ViewBag.IsUpdate = true;
+            ViewBag.Vehicles = _vehicleStorage.GetAll().ToList();
+            var vehicle = await _vehicleStorage.GetByRowAndPartitionKeyAsync(rowKey, partitionKey);
+
+            return View("Index", vehicle);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(Vehicle vehicle)
+        {
+            await _vehicleStorage.UpdateAsync(vehicle);
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

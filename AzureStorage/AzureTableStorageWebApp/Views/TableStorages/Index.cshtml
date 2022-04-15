@@ -2,9 +2,13 @@
 @{
     ViewData["Title"] = "Vehicle";
     List<Vehicle> vehicles = ViewBag.Vehicles as List<Vehicle>;
+    bool isUpdate = ViewBag.IsUpdate ?? false;
 }
 
-<form asp-action="Create" method="post">
+<form asp-action="@(isUpdate ? "Update" : "Create")" method="post">
+  <input type="hidden" asp-for="RowKey" />
+  <input type="hidden" asp-for="PartitionKey" />
+
   <div class="mb-3">
     <label asp-for="BrandName" class="form-label"></label>
     <input asp-for="BrandName" type="text" class="form-control">
@@ -40,6 +44,7 @@
       <th scope="col">SubModelName</th>
       <th scope="col">ModelYear</th>
       <th scope="col">TimeStamp</th>
+      <th scope="col">Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -53,6 +58,9 @@
           <td>@vehicle.SubModelName</td>
           <td>@vehicle.ModelYear</td>
           <td>@vehicle.Timestamp</td>
+          <td>
+              <a class="btn btn-warning" asp-action="Update" asp-route-rowKey="@vehicle.RowKey" asp-route-partitionKey="@vehicle.PartitionKey">Update</a>
+          </td>
         </tr>
     }
   </tbody>
