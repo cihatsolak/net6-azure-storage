@@ -52,5 +52,13 @@
 
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public IActionResult Query(string searchModelName)
+        {
+            ViewBag.Vehicles = _vehicleStorage.Query(p => p.ModelName.Equals(searchModelName)).ToList();
+
+            return View("Index");
+        }
     }
 }

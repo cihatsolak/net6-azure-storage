@@ -6,63 +6,67 @@
 }
 
 <form asp-action="@(isUpdate ? "Update" : "Create")" method="post">
-  <input type="hidden" asp-for="RowKey" />
-  <input type="hidden" asp-for="PartitionKey" />
+    <input type="hidden" asp-for="RowKey" />
+    <input type="hidden" asp-for="PartitionKey" />
 
-  <div class="mb-3">
-    <label asp-for="BrandName" class="form-label"></label>
-    <input asp-for="BrandName" type="text" class="form-control">
-  </div>
-  <div class="mb-3">
-    <label asp-for="ModelName" class="form-label"></label>
-    <input asp-for="ModelName" type="text" class="form-control">
-  </div>
-  <div class="mb-3">
-    <label asp-for="SubModelName" class="form-label"></label>
-    <input asp-for="SubModelName" type="text" class="form-control">
-  </div>
-  <div class="mb-3">
-    <label asp-for="ModelYear" class="form-label"></label>
-    <input asp-for="ModelYear" type="number" class="form-control">
-  </div>
-  <div class="mb-3 form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+    <div class="mb-3">
+        <label asp-for="BrandName" class="form-label"></label>
+        <input asp-for="BrandName" type="text" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label asp-for="ModelName" class="form-label"></label>
+        <input asp-for="ModelName" type="text" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label asp-for="SubModelName" class="form-label"></label>
+        <input asp-for="SubModelName" type="text" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label asp-for="ModelYear" class="form-label"></label>
+        <input asp-for="ModelYear" type="number" class="form-control">
+    </div>
+    <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
 <hr />
 <h2 class="my-2">Vehicles</h2>
+<form asp-action="Query" method="get">
+    <input type="text" name="searchModelName"/>
+    <button type="submit" class="btn btn-outline-primary">Search</button>
+</form>
 <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">RowKey</th>
-      <th scope="col">PartitionKey</th>
-      <th scope="col">BrandName</th>
-      <th scope="col">ModelName</th>
-      <th scope="col">SubModelName</th>
-      <th scope="col">ModelYear</th>
-      <th scope="col">TimeStamp</th>
-      <th scope="col">Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    @foreach(var vehicle in vehicles)
-    {
+    <thead>
         <tr>
-          <th scope="row">@vehicle.RowKey</th>
-          <td>@vehicle.PartitionKey</td>
-          <td>@vehicle.BrandName</td>
-          <td>@vehicle.ModelName</td>
-          <td>@vehicle.SubModelName</td>
-          <td>@vehicle.ModelYear</td>
-          <td>@vehicle.Timestamp</td>
-          <td>
-              <a class="btn btn-warning" asp-action="Update" asp-route-rowKey="@vehicle.RowKey" asp-route-partitionKey="@vehicle.PartitionKey">Update</a>
-              <a class="btn btn-danger" asp-action="Delete" asp-route-rowKey="@vehicle.RowKey" asp-route-partitionKey="@vehicle.PartitionKey">Delete</a>
-          </td>
+            <th scope="col">RowKey</th>
+            <th scope="col">PartitionKey</th>
+            <th scope="col">BrandName</th>
+            <th scope="col">ModelName</th>
+            <th scope="col">SubModelName</th>
+            <th scope="col">ModelYear</th>
+            <th scope="col">TimeStamp</th>
+            <th scope="col">Actions</th>
         </tr>
-    }
-  </tbody>
+    </thead>
+    <tbody>
+        @foreach (var vehicle in vehicles)
+        {
+            <tr>
+                <th scope="row">@vehicle.RowKey</th>
+                <td>@vehicle.PartitionKey</td>
+                <td>@vehicle.BrandName</td>
+                <td>@vehicle.ModelName</td>
+                <td>@vehicle.SubModelName</td>
+                <td>@vehicle.ModelYear</td>
+                <td>@vehicle.Timestamp</td>
+                <td>
+                    <a class="btn btn-warning" asp-action="Update" asp-route-rowKey="@vehicle.RowKey" asp-route-partitionKey="@vehicle.PartitionKey">Update</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-rowKey="@vehicle.RowKey" asp-route-partitionKey="@vehicle.PartitionKey">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
