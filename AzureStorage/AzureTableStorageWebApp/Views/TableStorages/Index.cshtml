@@ -1,8 +1,35 @@
-﻿@{
-    ViewData["Title"] = "Error";
+﻿@model Vehicle
+@{
+    ViewData["Title"] = "Vehicle";
     List<Vehicle> vehicles = ViewBag.Vehicles as List<Vehicle>;
 }
 
+<form asp-action="Create" method="post">
+  <div class="mb-3">
+    <label asp-for="BrandName" class="form-label"></label>
+    <input asp-for="BrandName" type="text" class="form-control">
+  </div>
+  <div class="mb-3">
+    <label asp-for="ModelName" class="form-label"></label>
+    <input asp-for="ModelName" type="text" class="form-control">
+  </div>
+  <div class="mb-3">
+    <label asp-for="SubModelName" class="form-label"></label>
+    <input asp-for="SubModelName" type="text" class="form-control">
+  </div>
+  <div class="mb-3">
+    <label asp-for="ModelYear" class="form-label"></label>
+    <input asp-for="ModelYear" type="number" class="form-control">
+  </div>
+  <div class="mb-3 form-check">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<hr />
+<h2 class="my-2">Vehicles</h2>
 <table class="table">
   <thead>
     <tr>

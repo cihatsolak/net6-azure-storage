@@ -17,9 +17,7 @@
         {
             var response = await _tableClient.AddEntityAsync(entity);
             if (response.IsError)
-            {
-
-            }
+                throw new Exception("The add operation failed.");
 
             return entity;
         }
@@ -48,9 +46,7 @@
         {
             var response = await _tableClient.UpdateEntityAsync(entity, entity.ETag, TableUpdateMode.Merge);
             if (response.IsError)
-            {
-
-            }
+                throw new Exception("update process failed.");
 
             return entity;
         }
