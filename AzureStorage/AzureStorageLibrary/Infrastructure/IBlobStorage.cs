@@ -3,6 +3,7 @@
     public enum EContainerName
     {
         images,
+        watermarks,
         documents,
         videos,
         log

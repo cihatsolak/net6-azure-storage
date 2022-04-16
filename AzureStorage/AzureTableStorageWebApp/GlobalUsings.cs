@@ -3,3 +3,4 @@ global using AzureStorageLibrary.Infrastructure;
 global using AzureStorageLibrary.Services;
 global using AzureTableStorageWebApp.Models;
 global using Microsoft.AspNetCore.Mvc;
+global using AzureTableStorageWebApp.Infrastructure;
