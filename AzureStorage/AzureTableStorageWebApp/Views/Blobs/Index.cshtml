@@ -3,17 +3,16 @@
     var fileBlobs = ViewBag.FileBlobs as IEnumerable<FileBlob>;
 }
 
+<form asp-action="Upload" method="post" enctype="multipart/form-data">
+    <input type="file" name="formfile" />
+    <button class="btn btn-primary" type="submit">Upload</button>
+</form>
+<hr />
 <table class="table">
     <thead>
         <tr>
-            <th scope="col">RowKey</th>
-            <th scope="col">PartitionKey</th>
-            <th scope="col">BrandName</th>
-            <th scope="col">ModelName</th>
-            <th scope="col">SubModelName</th>
-            <th scope="col">ModelYear</th>
-            <th scope="col">TimeStamp</th>
-            <th scope="col">Actions</th>
+            <th scope="col">Preview</th>
+            <th scope="col">Name</th>
         </tr>
     </thead>
     <tbody>
@@ -23,6 +22,7 @@
                 <td>
                     <img src="@blob.Url" class="img-thumbnail" />
                 </td>
+                <td>@blob.Name</td>
             </tr>
         }
     </tbody>

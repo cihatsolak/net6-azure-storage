@@ -22,5 +22,13 @@
 
             return View();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Upload(IFormFile formfile)
+        {
+            string fileName = string.Concat(Guid.NewGuid().ToString(), Path.GetExtension(formfile.FileName));
+            await _blobStorage.UploadAsync(formfile.OpenReadStream(), fileName, EContainerName.images);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
