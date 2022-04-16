@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    var fileBlobs = ViewBag.FileBlobs as IEnumerable<FileBlob>;
+}
+
+<form asp-action="Upload" method="post" enctype="multipart/form-data">
+    <input type="file" name="formfile" />
+    <button class="btn btn-primary" type="submit">Upload</button>
+</form>
+<hr />
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Preview</th>
+            <th scope="col">Name</th>
+            <th scope="col">Download</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var blob in fileBlobs)
+        {
+            <tr>
+                <td>
+                    <img src="@blob.Url" class="img-thumbnail" />
+                </td>
+                <td>@blob.Name</td>
+                <td>
+                    <a class="btn btn-success btn-sm" asp-action="Download" asp-route-fileName="@blob.Name">Download</a>
+                    <a class="btn btn-warning btn-sm" asp-action="Delete" asp-route-fileName="@blob.Name">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

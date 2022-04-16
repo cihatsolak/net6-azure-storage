@@ -1,5 +1,9 @@
 ﻿namespace AzureStorageLibrary.Infrastructure
 {
+    /// <summary>
+    /// Table Storage (NoSql)
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
     public interface INoSqlStorage<TEntity> where TEntity : class, ITableEntity, new()
     {
         IQueryable<TEntity> Query(Expression<Func<TEntity, bool>> expression);
