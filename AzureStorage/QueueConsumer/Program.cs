@@ -1,4 +1,4 @@
-﻿ConnectionStrings.StorageConnectionString = "DefaultEndpointsProtocol=https;AccountName=automotivestorageaccount;AccountKey=ueAynZX2FhrPbb3CbKDYQi6qHRQiTPtEdoNnSouo+btq0Mydd/DtrvFTeMNcJspWOTooamPS44Qqi0zn+AYH3g==;EndpointSuffix=core.windows.net";
+﻿ConnectionStrings.StorageConnectionString = "xxxxxxxxxxxxx";
 QueueStorage _queueStorage = new();
 
 byte[] byteMessage = Encoding.UTF8.GetBytes("Cihat Solak");
