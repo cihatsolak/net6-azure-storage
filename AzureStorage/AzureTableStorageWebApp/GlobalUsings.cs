@@ -7,3 +7,5 @@ global using AzureTableStorageWebApp.Infrastructure;
 global using AzureStorageLibrary.Models;
 global using System.Text;
 global using System.Text.Json;
+global using Microsoft.AspNetCore.SignalR;
+global using AzureTableStorageWebApp.Hubs;

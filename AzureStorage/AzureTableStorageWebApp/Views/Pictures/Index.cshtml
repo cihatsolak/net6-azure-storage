@@ -32,43 +32,43 @@
 
 @section Scripts {
 <script type="text/javascript">
+    let connectiondId = "";
+
+    $(document).ready(() => {
+        var connection = new signalR.HubConnectionBuilder().withUrl("/WatermakHub").build();
+        connection.start().then(() => {
+            connectiondId = connection.connectionId; //bağlantı kurulduktan sonra connection id gelir.
+        });
+    });
+
     var images = new Array();
 
-    $(document).ready(()=>{
+    $("#images img").click(function() {
+        let clickedImageName = $(this).data("name");
+        let isExist = images.some(item => item === clickedImageName);
 
-        $("#images img").click(function(){
+        if (!isExist) {
+            $(this).css("border", "3px solid red");
+            images.push(clickedImageName);
+        } else {
+            images = images.filter(item => item !== clickedImageName);
+            $(this).css("border", "");
+        }
+    });
 
-            let clickedImageName = $(this).data("name");
-            let isExist = images.some(item => item === clickedImageName);
+    $("#add-watermak").click(() => {
+        let pictureWatermakQueue = {
+            UserId: @(int.Parse(ViewBag.UserId)),
+            City: '@Html.Raw(ViewBag.City)',
+            ConnectionId: connectiondId,
+            WatermakText: $("#watermak-text").val(),
+            Images: images
+        };
 
-            if(!isExist)
-            {
-                $(this).css("border", "3px solid red");
-                images.push(clickedImageName);
-            }
-            else
-            {
-                images  = images.filter(item => item !== clickedImageName);
-                $(this).css("border", "");
-            }
-        });
-
-
-        $("#add-watermak").click(()=>{
-            let pictureWatermakQueue = {
-                UserId : @(int.Parse(ViewBag.UserId)),
-                City : '@Html.Raw(ViewBag.City)',
-                ConnectionId : "123",
-                WatermakText : $("#watermak-text").val(),
-                Images : images
-            };
-
-            $.post("/Pictures/AddWatermak", pictureWatermakQueue, (response) => {
-                 $("#images img").css("border", "");
-                 $("#watermak-text").val("");
-                 alert("mesajınız iletildi.");
-            });
-
+        $.post("/Pictures/AddWatermak", pictureWatermakQueue, (response) => {
+            $("#images img").css("border", "");
+            $("#watermak-text").val("");
+            alert("mesajınız iletildi.");
         });
     });
 

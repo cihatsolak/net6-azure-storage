@@ -1,4 +1,4 @@
-﻿namespace AzureTableStorageWebApp.Controllers
+﻿namespace AzureTableStorageWebApp.Controllers.Watermarks
 {
     public class PicturesController : Controller
     {

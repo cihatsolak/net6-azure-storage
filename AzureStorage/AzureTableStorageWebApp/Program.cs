@@ -8,6 +8,8 @@ builder.Services.AddScoped(typeof(INoSqlStorage<>), typeof(TableStorage<>));
 builder.Services.AddSingleton<IBlobStorage, BlobStorage>();
 builder.Services.AddSingleton<IQueueStorage, QueueStorage>();
 
+builder.Services.AddSignalR();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,8 +27,13 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapControllerRoute(
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+    endpoints.MapHub<WatermakHub>("/WatermakHub");
+});
 
 app.Run();
