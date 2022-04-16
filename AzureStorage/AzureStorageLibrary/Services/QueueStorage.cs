@@ -21,6 +21,9 @@
         public async Task<QueueMessage> RetrieveNextMessageAsync()
         {
             QueueProperties queueProperties = await _queueClient.GetPropertiesAsync(); //kuyrukta mesaj var mı?
+
+            //var responsePeekedMessage = await _queueClient.PeekMessageAsync(); kuyruktan mesajı alayım ama kuyruktan da silinmesin diyorsak yani görünmezliğini kapatmamış oluyoruz.
+
             if (0 >= queueProperties.ApproximateMessagesCount) // kuyrukta mesaj yoksa
                 return null;
 
