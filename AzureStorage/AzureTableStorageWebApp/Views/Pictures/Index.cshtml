@@ -8,19 +8,69 @@
 <div class="row">
     <div class="col-md-8 offset-2">
         <form asp-action="Index" method="post" enctype="multipart/form-data">
-            <input type="file" name="imageFormFiles" id="imageFormFiles" multiple/>
-            <button class="btn btn-primary" type="submit">Add Range Images</button>
+            <input type="file" name="imageFormFiles" id="imageFormFiles" multiple />
+            <button class="btn btn-primary" type="submit">Add Images</button>
         </form>
+
+        <div id="images">
+            @if (fileBlobs is not null)
+            {
+                foreach (var image in fileBlobs)
+                {
+                    <img data-name="@image.Name" src="@image.Url" class="img-thumbnail" style="max-width: 400px" />
+                }
+            }
+        </div>
+
+        <div>
+            <input type="text" id="watermak-text" />
+            <button id="add-watermak">Add Watermak</button>
+        </div>
     </div>
 </div>
-<hr/>
-<div id="images">
-    @if(fileBlobs is not null)
-    {
-        foreach (var image in fileBlobs)
-        {
-            <img data-name="@image.Name" src="@image.Url" class="img-thumbnail" style="max-width: 400px"/>
-        }
-    }
-</div>
 
+
+@section Scripts {
+<script type="text/javascript">
+    var images = new Array();
+
+    $(document).ready(()=>{
+
+        $("#images img").click(function(){
+
+            let clickedImageName = $(this).data("name");
+            let isExist = images.some(item => item === clickedImageName);
+
+            if(!isExist)
+            {
+                $(this).css("border", "3px solid red");
+                images.push(clickedImageName);
+            }
+            else
+            {
+                images  = images.filter(item => item !== clickedImageName);
+                $(this).css("border", "");
+            }
+        });
+
+
+        $("#add-watermak").click(()=>{
+            let pictureWatermakQueue = {
+                UserId : @(int.Parse(ViewBag.UserId)),
+                City : '@Html.Raw(ViewBag.City)',
+                ConnectionId : "123",
+                WatermakText : $("#watermak-text").val(),
+                Images : images
+            };
+
+            $.post("/Pictures/AddWatermak", pictureWatermakQueue, (response) => {
+                 $("#images img").css("border", "");
+                 $("#watermak-text").val("");
+                 alert("mesajınız iletildi.");
+            });
+
+        });
+    });
+
+</script>
+}

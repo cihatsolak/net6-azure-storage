@@ -23,6 +23,9 @@
             if (user is null)
                 return View();
 
+            ViewBag.UserId = SampleUserInfo.UserId;
+            ViewBag.City = SampleUserInfo.City;
+
             if (user.Paths is not null)
             {
                 var fileBlobs = user.Paths.Select(blob => new FileBlob
@@ -70,7 +73,7 @@
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> AddWatermak(ImageWatermakQueue imageWatermakQueue)
         {
             string imageWatermakQueueString = JsonSerializer.Serialize(imageWatermakQueue);
