@@ -16,19 +16,58 @@
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            List<string> path = new();
-
             var user = await _noSqlStorage.GetByRowAndPartitionKeyAsync(SampleUserInfo.UserId, SampleUserInfo.City);
             if (user is null)
-                throw new Exception("user not found.");
+                return View();
 
-            ViewBag.BlobUrl = user.Paths.Select(blob => new FileBlob
+            if (user.Paths is not null)
             {
-                Name = blob,
-                Url = $"{_blobStorage.BlobUrl}/{EContainerName.images}/{blob}"
-            }).ToList();
+                var fileBlobs = user.Paths.Select(blob => new FileBlob
+                {
+                    Name = blob,
+                    Url = $"{_blobStorage.BlobUrl}/{EContainerName.images}/{blob}"
+                }).ToList();
+
+                ViewBag.BlobUrl = fileBlobs;
+            }
 
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Index(IEnumerable<IFormFile> imageFormFiles)
+        {
+            List<string> imageNames = new();
+
+            foreach (var imageFormFile in imageFormFiles)
+            {
+                string randomFileName = $"{Guid.NewGuid()}{Path.GetExtension(imageFormFile.FileName)}";
+                imageNames.Add(randomFileName);
+
+                await _blobStorage.UploadAsync(imageFormFile.OpenReadStream(), randomFileName, EContainerName.images);
+            }
+
+            var userPicture = await _noSqlStorage.GetByRowAndPartitionKeyAsync(SampleUserInfo.UserId, SampleUserInfo.City);
+            if (userPicture is null)
+            {
+                userPicture = new()
+                {
+                    RowKey = SampleUserInfo.UserId,
+                    PartitionKey = SampleUserInfo.City,
+                    Paths = imageNames
+                };
+            }
+            else
+            {
+                //if (.Any)
+                //{
+                //    imageNames.AddRange()
+                //}
+            }
+
+            await _noSqlStorage.AddAsync(userPicture);
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

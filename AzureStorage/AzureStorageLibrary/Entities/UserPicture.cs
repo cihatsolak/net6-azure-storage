@@ -1,17 +1,19 @@
-﻿namespace AzureStorageLibrary.Entities
+﻿using System.Runtime.Serialization;
+
+namespace AzureStorageLibrary.Entities
 {
     public class UserPicture : BaseTableEntity
     {
         public string RawPaths { get; set; }
         public string WatermarkRawPaths { get; set; }
 
-        [JsonIgnore]
+        [IgnoreDataMember]
         public List<string> Paths
         {
             get
             {
                 if (RawPaths is null)
-                    return null;
+                    return new List<string>();
 
                 return JsonSerializer.Deserialize<List<string>>(RawPaths);
             }
@@ -24,13 +26,13 @@
             }
         }
 
-        [JsonIgnore]
+        [IgnoreDataMember]
         public List<string> WatermarkPaths
         {
             get
             {
                 if (WatermarkRawPaths is null)
-                    return null;
+                    return new List<string>();
 
                 return JsonSerializer.Deserialize<List<string>>(WatermarkRawPaths);
             }

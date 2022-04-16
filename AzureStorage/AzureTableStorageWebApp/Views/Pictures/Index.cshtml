@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    List<FileBlob> fileBlobs = ViewBag.BlobUrl as List<FileBlob>;
+}
+
+<h1>Images</h1>
+<hr />
+<div class="row">
+    <div class="col-md-8 offset-2">
+        <form asp-action="Index" method="post" enctype="multipart/form-data">
+            <input type="file" name="imageFormFiles" id="imageFormFiles" multiple/>
+            <button class="btn btn-primary" type="submit">Add Range Images</button>
+        </form>
+    </div>
+</div>
+<hr/>
+<div id="images">
+    @if(fileBlobs is not null)
+    {
+        foreach (var image in fileBlobs)
+        {
+            <img data-name="@image.Name" src="@image.Url" class="img-thumbnail" style="max-width: 400px"/>
+        }
+    }
+</div>
+
