@@ -13,6 +13,7 @@
         <tr>
             <th scope="col">Preview</th>
             <th scope="col">Name</th>
+            <th scope="col">Download</th>
         </tr>
     </thead>
     <tbody>
@@ -23,6 +24,10 @@
                     <img src="@blob.Url" class="img-thumbnail" />
                 </td>
                 <td>@blob.Name</td>
+                <td>
+                    <a class="btn btn-success btn-sm" asp-action="Download" asp-route-fileName="@blob.Name">Download</a>
+                    <a class="btn btn-warning btn-sm" asp-action="Delete" asp-route-fileName="@blob.Name">Delete</a>
+                </td>
             </tr>
         }
     </tbody>
