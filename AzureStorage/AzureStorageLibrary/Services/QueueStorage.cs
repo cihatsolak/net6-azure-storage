@@ -6,7 +6,8 @@
 
         public QueueStorage()
         {
-            string queueName = "vehicles-queue";
+            //string queueName = "vehicles-queue";
+            string queueName = "watermak-queue";
             _queueClient = new QueueClient(ConnectionStrings.StorageConnectionString, queueName);
             _queueClient.CreateIfNotExists();
         }

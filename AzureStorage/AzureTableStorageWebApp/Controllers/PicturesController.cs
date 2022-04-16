@@ -4,13 +4,16 @@
     {
         private readonly INoSqlStorage<UserPicture> _noSqlStorage;
         private readonly IBlobStorage _blobStorage;
+        private readonly IQueueStorage _queueStorage;
 
         public PicturesController(
             INoSqlStorage<UserPicture> tableStorage,
-            IBlobStorage blobStorage)
+            IBlobStorage blobStorage,
+            IQueueStorage queueStorage)
         {
             _noSqlStorage = tableStorage;
             _blobStorage = blobStorage;
+            _queueStorage = queueStorage;
         }
 
         [HttpGet]
@@ -59,15 +62,22 @@
             }
             else
             {
-                //if (.Any)
-                //{
-                //    imageNames.AddRange()
-                //}
+                //userPicture.Paths.
             }
 
             await _noSqlStorage.AddAsync(userPicture);
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddWatermak(ImageWatermakQueue imageWatermakQueue)
+        {
+            string imageWatermakQueueString = JsonSerializer.Serialize(imageWatermakQueue);
+            string imageWatermakQueueBase64String = Convert.ToBase64String(Encoding.UTF8.GetBytes(imageWatermakQueueString));
+
+            await _queueStorage.SendMessageAsync(imageWatermakQueueBase64String);
+            return Ok();
         }
     }
 }
