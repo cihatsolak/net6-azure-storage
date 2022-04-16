@@ -2,6 +2,6 @@
 {
     public static class ConnectionStrings
     {
-        public static string AzureStorageConnectionString { get; set; }
+        public static string StorageConnectionString { get; set; }
     }
 }

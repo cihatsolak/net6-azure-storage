@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    var fileBlobs = ViewBag.FileBlobs as IEnumerable<FileBlob>;
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">RowKey</th>
+            <th scope="col">PartitionKey</th>
+            <th scope="col">BrandName</th>
+            <th scope="col">ModelName</th>
+            <th scope="col">SubModelName</th>
+            <th scope="col">ModelYear</th>
+            <th scope="col">TimeStamp</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var blob in fileBlobs)
+        {
+            <tr>
+                <td>
+                    <img src="@blob.Url" class="img-thumbnail" />
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

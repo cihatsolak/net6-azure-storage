@@ -2,11 +2,10 @@
 {
     public enum EContainerName
     {
-        Image,
-        Pdf,
-        Office,
-        Video,
-        Log
+        images,
+        documents,
+        videos,
+        log
     }
 
     public interface IBlobStorage

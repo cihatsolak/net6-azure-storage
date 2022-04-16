@@ -8,12 +8,12 @@
 
         public BlobStorage()
         {
-            _blobServiceClient = new(ConnectionStrings.AzureStorageConnectionString);
+            _blobServiceClient = new(ConnectionStrings.StorageConnectionString);
         }
 
         public async Task AddLogAsync(string text, string fileName)
         {
-            var containerClient = _blobServiceClient.GetBlobContainerClient(EContainerName.Log.ToString());
+            var containerClient = _blobServiceClient.GetBlobContainerClient(EContainerName.log.ToString());
             var appendBlobClient = containerClient.GetBlobClient(fileName);
 
             using MemoryStream memoryStream = new();
@@ -48,7 +48,7 @@
 
         public async Task<List<string>> GetLogsAsync(string fileName)
         {
-            var containerClient = _blobServiceClient.GetBlobContainerClient(EContainerName.Log.ToString());
+            var containerClient = _blobServiceClient.GetBlobContainerClient(EContainerName.log.ToString());
             var appendBlobClient = containerClient.GetBlobClient(fileName);
 
             var blobDownloadStreamingResult = await appendBlobClient.DownloadStreamingAsync();
@@ -70,6 +70,7 @@
         {
             List<string> blobNames = new();
             var containerClient = _blobServiceClient.GetBlobContainerClient(eContainerName.ToString());
+            containerClient.CreateIfNotExists();
 
             var blobs = containerClient.GetBlobs();
 

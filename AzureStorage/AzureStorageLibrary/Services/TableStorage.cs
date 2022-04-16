@@ -7,8 +7,8 @@
 
         public TableStorage()
         {
-            _tableServiceClient = new TableServiceClient(ConnectionStrings.AzureStorageConnectionString);
-            _tableClient = new TableClient(ConnectionStrings.AzureStorageConnectionString, typeof(TEntity).Name);
+            _tableServiceClient = new TableServiceClient(ConnectionStrings.StorageConnectionString);
+            _tableClient = new TableClient(ConnectionStrings.StorageConnectionString, typeof(TEntity).Name);
 
             _tableClient.CreateIfNotExists(); //class'a ait tablo yoksa oluştur.
         }
