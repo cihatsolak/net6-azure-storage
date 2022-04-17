@@ -18,7 +18,7 @@ namespace WatermakProcessFunction
         [FunctionName("Function1")]
         public async Task Run([QueueTrigger("watermak-queue", Connection = "")] ImageWatermakQueue imageWatermakQueue, ILogger log)
         {
-            ConnectionStrings.StorageConnectionString = "DefaultEndpointsProtocol=https;AccountName=automotivestorageaccount;AccountKey=ueAynZX2FhrPbb3CbKDYQi6qHRQiTPtEdoNnSouo+btq0Mydd/DtrvFTeMNcJspWOTooamPS44Qqi0zn+AYH3g==;EndpointSuffix=core.windows.net";
+            ConnectionStrings.StorageConnectionString = "xxxx";
             IBlobStorage blobStorage = new BlobStorage();
             INoSqlStorage<UserPicture> userPictureNoSqlStorage = new TableStorage<UserPicture>();
 
