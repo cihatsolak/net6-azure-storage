@@ -1,12 +1,15 @@
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 ConnectionStrings.StorageConnectionString = builder.Configuration.GetSection("ConnectionStrings")["AzureStorageConnectionString"];
 builder.Services.AddScoped(typeof(INoSqlStorage<>), typeof(TableStorage<>));
 builder.Services.AddSingleton<IBlobStorage, BlobStorage>();
 builder.Services.AddSingleton<IQueueStorage, QueueStorage>();
+
+builder.Services.AddSingleton<IWatermarkHubDispatcher, WatermarkHubDispatcher>();
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -25,8 +28,13 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapControllerRoute(
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+    endpoints.MapHub<WatermakHub>("/WatermakHub");
+});
 
 app.Run();

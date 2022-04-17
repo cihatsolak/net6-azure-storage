@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewData["Title"] = "ShowWatermark";
+    List<FileBlob> fileBlobs = ViewBag.WatermarkImages as List<FileBlob>;
+}
+
+<div id="images">
+     @if (fileBlobs is not null)
+     {
+         foreach (var image in fileBlobs)
+         {
+             <img data-name="@image.Name" src="@image.Url" class="img-thumbnail" style="max-width: 400px" />
+         }
+     }
+ </div>
+

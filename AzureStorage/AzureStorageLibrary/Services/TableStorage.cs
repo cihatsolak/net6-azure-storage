@@ -29,7 +29,14 @@
 
         public async Task<TEntity> GetByRowAndPartitionKeyAsync(string rowKey, string partitionKey)
         {
-            return await _tableClient.GetEntityAsync<TEntity>(partitionKey, rowKey);
+            try
+            {
+                return await _tableClient.GetEntityAsync<TEntity>(partitionKey, rowKey);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public IQueryable<TEntity> GetAll()

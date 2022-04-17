@@ -1,0 +1,83 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    List<FileBlob> fileBlobs = ViewBag.BlobUrl as List<FileBlob>;
+}
+
+<h1>Images</h1>
+<hr />
+<div class="row">
+    <div class="col-md-8 offset-2">
+        <form asp-action="Index" method="post" enctype="multipart/form-data">
+            <input type="file" name="imageFormFiles" id="imageFormFiles" multiple />
+            <button class="btn btn-primary" type="submit">Add Images</button>
+        </form>
+
+        <div id="images">
+            @if (fileBlobs is not null)
+            {
+                foreach (var image in fileBlobs)
+                {
+                    <img data-name="@image.Name" src="@image.Url" class="img-thumbnail" style="max-width: 400px" />
+                }
+            }
+        </div>
+
+        <div>
+            <input type="text" id="watermak-text" />
+            <button id="add-watermak">Add Watermak</button>
+        </div>
+        <div id="status"></div>
+    </div>
+</div>
+
+
+@section Scripts {
+<script type="text/javascript">
+    let connectiondId = "";
+
+    $(document).ready(() => {
+        var connection = new signalR.HubConnectionBuilder().withUrl("/WatermakHub").build();
+        connection.start().then(() => {
+            connectiondId = connection.connectionId; //bağlantı kurulduktan sonra connection id gelir.
+        });
+
+        connection.on("ReceiveCompleteWatermarkProcess", (result) => {
+            if(result.succedeed){
+                $("#status").html(result.message);
+            }
+        })
+    });
+
+    var images = new Array();
+
+    $("#images img").click(function() {
+        let clickedImageName = $(this).data("name");
+        let isExist = images.some(item => item === clickedImageName);
+
+        if (!isExist) {
+            $(this).css("border", "3px solid red");
+            images.push(clickedImageName);
+        } else {
+            images = images.filter(item => item !== clickedImageName);
+            $(this).css("border", "");
+        }
+    });
+
+    $("#add-watermak").click(() => {
+        let pictureWatermakQueue = {
+            UserId: @(int.Parse(ViewBag.UserId)),
+            City: '@Html.Raw(ViewBag.City)',
+            ConnectionId: connectiondId,
+            WatermakText: $("#watermak-text").val(),
+            Images: images
+        };
+
+        $.post("/Pictures/AddWatermak", pictureWatermakQueue, (response) => {
+            $("#status").html("Seçilen resimlere filigran ekleniyor...");
+            $("#images img").css("border", "");
+            $("#watermak-text").val("");
+        });
+    });
+
+</script>
+}

@@ -90,7 +90,7 @@
             await containerClient.SetAccessPolicyAsync(PublicAccessType.BlobContainer); //container'ı dış dünyaya açıldı, url üzerinden erişilebiliyor olacak.
 
             var blobClient = containerClient.GetBlobClient(fileName);
-            await blobClient.UploadAsync(fileStrem);
+            await blobClient.UploadAsync(fileStrem, true);
         }
     }
 }
