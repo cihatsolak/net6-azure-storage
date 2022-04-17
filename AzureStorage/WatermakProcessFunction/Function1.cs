@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace WatermakProcessFunction
@@ -17,7 +18,7 @@ namespace WatermakProcessFunction
         [FunctionName("Function1")]
         public async Task Run([QueueTrigger("watermak-queue", Connection = "")] ImageWatermakQueue imageWatermakQueue, ILogger log)
         {
-            ConnectionStrings.StorageConnectionString = "XX";
+            ConnectionStrings.StorageConnectionString = "DefaultEndpointsProtocol=https;AccountName=automotivestorageaccount;AccountKey=ueAynZX2FhrPbb3CbKDYQi6qHRQiTPtEdoNnSouo+btq0Mydd/DtrvFTeMNcJspWOTooamPS44Qqi0zn+AYH3g==;EndpointSuffix=core.windows.net";
             IBlobStorage blobStorage = new BlobStorage();
             INoSqlStorage<UserPicture> userPictureNoSqlStorage = new TableStorage<UserPicture>();
 
@@ -39,6 +40,13 @@ namespace WatermakProcessFunction
 
             userPicture.WatermarkPaths = imageWatermakQueue.Images;
             await userPictureNoSqlStorage.UpdateAsync(userPicture);
+
+            HttpClient httpClient = new();
+            await httpClient.GetAsync($"https://localhost:7261/api/Notification/CompleteWatermakProcess/{imageWatermakQueue.ConnectionId}");
+
+            log.LogInformation($"Client bilgilendirilmiþtir");
+
+            httpClient.Dispose();
         }
 
         public MemoryStream AddWatermak(string watermarkText, Stream imageStream)

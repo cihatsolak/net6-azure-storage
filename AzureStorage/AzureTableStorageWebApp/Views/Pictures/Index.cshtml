@@ -26,6 +26,7 @@
             <input type="text" id="watermak-text" />
             <button id="add-watermak">Add Watermak</button>
         </div>
+        <div id="status"></div>
     </div>
 </div>
 
@@ -39,6 +40,12 @@
         connection.start().then(() => {
             connectiondId = connection.connectionId; //bağlantı kurulduktan sonra connection id gelir.
         });
+
+        connection.on("ReceiveCompleteWatermarkProcess", (result) => {
+            if(result.succedeed){
+                $("#status").html(result.message);
+            }
+        })
     });
 
     var images = new Array();
@@ -66,9 +73,9 @@
         };
 
         $.post("/Pictures/AddWatermak", pictureWatermakQueue, (response) => {
+            $("#status").html("Seçilen resimlere filigran ekleniyor...");
             $("#images img").css("border", "");
             $("#watermak-text").val("");
-            alert("mesajınız iletildi.");
         });
     });
 

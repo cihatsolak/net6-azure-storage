@@ -8,6 +8,7 @@ builder.Services.AddScoped(typeof(INoSqlStorage<>), typeof(TableStorage<>));
 builder.Services.AddSingleton<IBlobStorage, BlobStorage>();
 builder.Services.AddSingleton<IQueueStorage, QueueStorage>();
 
+builder.Services.AddSingleton<IWatermarkHubDispatcher, WatermarkHubDispatcher>();
 builder.Services.AddSignalR();
 
 var app = builder.Build();

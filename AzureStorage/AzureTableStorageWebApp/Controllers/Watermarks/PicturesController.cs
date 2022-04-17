@@ -62,14 +62,19 @@
                     PartitionKey = SampleUserInfo.City,
                     Paths = imageNames
                 };
+
+                await _noSqlStorage.AddAsync(userPicture);
             }
             else
             {
-                //userPicture.Paths.
+                imageNames.AddRange(userPicture.Paths);
+                userPicture.Paths = imageNames;
+
+                await _noSqlStorage.UpdateAsync(userPicture);
             }
 
-            await _noSqlStorage.AddAsync(userPicture);
-
+            
+           
             return RedirectToAction(nameof(Index));
         }
 
