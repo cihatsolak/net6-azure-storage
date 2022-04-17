@@ -19,12 +19,12 @@
         [HttpGet]
         public async Task<IActionResult> Index()
         {
+            ViewBag.UserId = SampleUserInfo.UserId;
+            ViewBag.City = SampleUserInfo.City;
+
             var user = await _noSqlStorage.GetByRowAndPartitionKeyAsync(SampleUserInfo.UserId, SampleUserInfo.City);
             if (user is null)
                 return View();
-
-            ViewBag.UserId = SampleUserInfo.UserId;
-            ViewBag.City = SampleUserInfo.City;
 
             if (user.Paths is not null)
             {
@@ -73,8 +73,8 @@
                 await _noSqlStorage.UpdateAsync(userPicture);
             }
 
-            
-           
+
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -86,6 +86,21 @@
 
             await _queueStorage.SendMessageAsync(imageWatermakQueueBase64String);
             return Ok();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ShowWatermark()
+        {
+            UserPicture userPicture = await _noSqlStorage.GetByRowAndPartitionKeyAsync(SampleUserInfo.UserId, SampleUserInfo.City);
+            var watermarkImages = userPicture.WatermarkPaths.Select(blob => new FileBlob
+            {
+                Name = blob,
+                Url = $"{_blobStorage.BlobUrl}/{EContainerName.watermarks}/{blob}"
+            }).ToList();
+
+            ViewBag.WatermarkImages = watermarkImages;
+
+            return View();
         }
     }
 }
